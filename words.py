@@ -4,6 +4,7 @@ Top 10 most common words in the reviews of "Chipotle Mexican Grill"
 
 from pymongo import MongoClient
 import pprint
+import json
 
 punctuation_list = ["`", ":", ",", "-", ".", "!", "(", ")", "{", "}", "[", "]", "<", ">", ".", "?", "'", '"', ";",
                     "/", "\\", "~", "!", "@", "#", "$", "%", "^", "&", "*", "+", "="]
@@ -17,12 +18,12 @@ def delete_punctuations(string):
     if len(string) == 1:
         return string
 
-    print(string)
+    # print(string)
     while len(string) > 0 and string[-1] in punctuation_list:
         string = string[:-1]
     while len(string) > 0 and string[0] in punctuation_list:
         string = string[1:]
-    print(string)
+    # print(string)
     return string
 
 
@@ -47,6 +48,7 @@ cmg_reviews = db.review.find(query_review, project_review)
 
 # print(line)
 count_dict = {}
+pp = pprint.PrettyPrinter(indent=4)
 
 with open('all_words.txt', 'w')as f:
     # for w in line.split():
@@ -64,12 +66,13 @@ with open('all_words.txt', 'w')as f:
                 count_dict[clean] = 1
             else:
                 count_dict[clean] += 1
-            if w != clean:
-                f.write(w + "\n" + clean + "\n")
+            # if w != clean:
+            #     f.write(w + "\n" + clean + "\n")
 
-        # print(words)
-pp = pprint.PrettyPrinter(indent=4)
-# print(i)
+    # print(words)
+    # print(i)
 
-sorted_x = sorted(count_dict.items(), key=lambda kv: kv[1])
-pp.pprint(sorted_x)
+    sorted_x = sorted(count_dict.items(), key=lambda kv: kv[1], reverse=True)
+    # print(type(sorted_x))
+    # json.dump(count_dict, f, indent=4)
+    f.write('\n'.join('%s\t%s' % x for x in sorted_x))    # f.write(pp.pprint(sorted_x))

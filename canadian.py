@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 import pandas as pd
+import pprint
+import json
 
 '''
 How many Canadian residents(figure out who are Canadian residents by yourself) reviewed the business “Mon Ami Gabi” 
@@ -12,7 +14,7 @@ Canadian if:
 client = MongoClient()
 dblist = client.list_database_names()
 db = client.yelp
-
+pp = pprint.PrettyPrinter(indent=4)
 
 # FIND MAG BUSINESS ID
 mon_ami_gabi = db.business.find_one({"name": "Mon Ami Gabi"}, {"name": 1, "business_id": 1, "_id": 1, "city": 1})
@@ -70,3 +72,6 @@ for user in cursor:
         mag_reviewers.append(dic)
 
 print(mag_reviewers)
+with open('canadian.txt', 'w') as f:
+    for r in mag_reviewers:
+        f.write(json.dumps(r, indent=4, sort_keys=True))
