@@ -6,9 +6,7 @@ import json
 '''
 How many Canadian residents(figure out who are Canadian residents by yourself) reviewed the business “Mon Ami Gabi” 
 in last 1 year?
-Canadian if:
-    1. majority of the reviews are for restaurants in Canada (long term resident)
-    2. majority of the reviews done in the past 6 months are for restaurants in Canada (6 months)?
+Canadian if: half of their reviews are for restaurants in Canada
 '''
 
 client = MongoClient()
